@@ -1,24 +1,40 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import { Calender } from './calendar/Calender';
+import moment from 'moment';
 
 function App() {
+  const myEvents = [
+    { "Event_Title": 'Finish Work', "Event_Date": moment().format().substring(0,10), "Priority": 1},
+    { "Event_Title": 'Read A Book', "Event_Date": moment().format().substring(0,10), "Priority": 2},
+    { "Event_Title": 'Play Video Games', "Event_Date": moment().format().substring(0,10), "Priority": 3}
+  ];
+
+  const [eventsThisDay, setEventsThisDay] = useState([]);
+
+  function returnEvents(day){
+    setEventsThisDay(day.Events);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className='mx-auto mt-5'>
+        <Calender arrayOfEvents={myEvents} returnEvents={returnEvents}/>
+      </div>
+
+      <div className='row mx-auto'>
+        <div className='col-6 mx-auto text-center'>
+          <h3>Events</h3>
+          {
+            eventsThisDay.map((item, key) => {
+              return (
+                <h5 key={key}>{item.Event_Details.Event_Title} | {item.Event_Details.Event_Date}</h5>
+              )
+            })
+          }
+        </div>
+      </div>
+    </>
   );
 }
 
